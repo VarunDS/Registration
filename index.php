@@ -11,7 +11,6 @@ or die('Error connecting to the MYSQL server ');
 $Username = $_POST['username'];
 $Password = $_POST['pass'];
 
-
 $select_query = "Select * FROM Users WHERE Username='" . $Username . "' AND Password='" . $Password . "'";
 $result = mysqli_query ($con, $select_query);
 while ($row = mysqli_fetch_assoc ($result)) {
