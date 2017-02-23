@@ -1,9 +1,6 @@
 /**
  * Created by Admin on 20/02/17.
  */
-$(document).ready(function () {
-    $("#datepicker").datepicker();
-});
 
 $(function() {
 
@@ -34,6 +31,8 @@ $(function() {
 
                 // Set the message text.
                 $(formMessages).text(response);
+                $(formMessages).append('<a href="index.html">Login Here!</a>');
+
 
                 // Clear the form.
                 $('#ajax-registration').trigger('reset');
@@ -50,7 +49,7 @@ $(function() {
                     $(formMessages).text('Oops! An error occured and your message could not be sent.');
                 }
             });
-        return false;
+        return false;// using instead of event.preventDefault
 
     });
 
