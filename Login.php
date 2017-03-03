@@ -19,10 +19,12 @@ if (mysqli_num_rows($result) > 0){
     session_start();
     $row = mysqli_fetch_array($result);
     $_SESSION['id'] = $row['ID'];
+    $_SESSION['name']=$row['Fname'].' '.$row['Lname'];
     header('Location: Home.php', true);
 
 } else {
     echo "User ID/password entered do not match.";
+    session_destroy();
 }
 
 ?>

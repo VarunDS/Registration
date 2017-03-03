@@ -1,0 +1,23 @@
+
+.vcenter:before,
+.vcenter >* {display:inline-block; vertical-align:middle;}
+.vcenter:before {content:"";  height:100%;}
+.vcenter{
+    background-color: #373737;
+    color: #ffffff;
+    font-family: Verdana;
+    height:40px;
+    margin-top:15px;
+    padding-left: 10px;
+
+}
+
+input[type=image] {
+
+    background:url("/images/power.png");
+    width:20px; height:20px;
+    alt:"logout";
+    float: right;
+    padding-top: 8px;
+    padding-right: 5px;
+}

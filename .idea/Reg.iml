@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jquery-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="jquery.ui.datetimepicker-DefinitelyTyped" level="application" />
     <orderEntry type="module-library">
       <library name="PHP Runtime" type="php">
         <CLASSES>
@@ -14,7 +16,5 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="jquery-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="jquery.ui.datetimepicker-DefinitelyTyped" level="application" />
   </component>
 </module>

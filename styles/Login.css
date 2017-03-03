@@ -1,32 +1,33 @@
+
 legend {
-    color: #0481b1;
+    color: #ffffff;
     font-size: 25px;
     padding: 0 10px;
-    background: #fff;
+    background-color:slategray;
     -moz-border-radius: 4px;
-    box-shadow: 0 1px 5px rgba(4, 129, 177, 0.5);
+    box-shadow: 0 1px 5px black;
     padding: 5px 10px;
     text-transform: uppercase;
     font-family: Helvetica, sans-serif;
-    font-weight: bolder;
+    font-weight: normal;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
+    border-color: #373737;
 
 }
 
 fieldset {
-    background: #0481b1;
+    background: url("../images/dark-blue-gradient-wallpaper-2.jpg");
     border-radius: 4px;
     padding: 20px;
-    border-color: rgba(4, 129, 177, 0.4);
+    border-color: black;
     position: absolute;
     left: 50%;
     top: 50%;
     margin: -100px 0 0 -250px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+
+    box-shadow: 0 3px 5px ;
 }
 
 input[type="text"],
@@ -63,7 +64,7 @@ input {
 }
 
 #sign {
-    background-color: #373737;
+    background-color:slategray;
     border: none;
     font-family: Verdana;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
@@ -84,7 +85,7 @@ input {
 #signup {
     background: transparent;
     cursor: pointer;
-    color: white;
+    color: #ffffff;
     font-family: Verdana;
     font-size: 20px
 }
