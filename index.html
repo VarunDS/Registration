@@ -1,41 +1,93 @@
 <!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="styles/Login.css">
-<body style="font-family: Verdana;  background: url('images/whiteGrad.jpg');opacity:.8">
-<div style="text-align: center">
-    <div id="loginFormMessages"></div>
-    <fieldset style="padding:20px;top:230px; float: left">
+<html lang="en">
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="styles/src/Login.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="scripts/src/Registration.js"></script>
+    <link rel="stylesheet" href="styles/src/Registration.css">
+</head>
+<body style="background: url('images/BodyBG.jpg')">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+<div id="form-messages"></div>
+<div class="container">
+    <div class="row" >
 
-        <form method="post" id="loginForm" action="Login.php">
-            <table border='0' width='480px' cellpadding='0' cellspacing='0' align='center'>
-                <table border='0' width='480px' cellpadding='0' cellspacing='0' align='center'>
-                    <tr style="border-color: #373737;">
-                        <td><input type='text' name='username' placeholder="Username"></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td><input type='password' name='pass' placeholder="Password"></td>
-                    </tr>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="flip">
+                <div class="card" >
+                    <div class="face front">
+                        <div class="panel panel-default" style="background-color: #373737; opacity: .8">
+                            <form class="form-horizontal" method="post" action="Login.php">
 
-                    <table style="padding-top: 10px" border='0' cellpadding='0' cellspacing='0' width='480px'
-                           align='center'>
-                        <tr>
-                            <td align='center' style="padding-right: 10px"><input id="sign" type='submit' name='Sign In'
-                                                                                  value="Sign In"></td>
-                            <td align='center' style="padding-top: 25px;"><a href="Registration.html"><input id="signup"
-                                                                                                             type='button'
-                                                                                                             name='Sign Up'
-                                                                                                             value="New User?&#10;SignUp!"></a>
-                            </td>
-                        </tr>
-                    </table>
-                </table>
-            </table>
-        </form>
-    </fieldset>
+                                    <div style=" vertical-align:middle; text-align:center"><img src="images/Login.png" width="100px" height="100px"; ></div>
+                                <br>
+                                <input type="text" name="username" class="form-control" placeholder="Username"/>
+                                <br>
+                                <input type="password" name="pass" class="form-control" placeholder="Password"/>
+                                <p class="text-right"><a href="">Forgot Password</a></p>
+                                <button class="btn btn-primary btn-block">LOG IN</button>
+                                <hr>
+                                <p class="text-center">
+                                    <a href="#" class="fliper-btn">Create new account?</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
 
-</div>
+                    <div class="face back">
+                        <div class="panel panel-default">
+                            <form class="form-horizontal" id="ajax-registration" method="post"
+                                  action="Registration.php">
+                                <div style=" vertical-align:middle; text-align:center"><img src="images/Login.png" width="100px" height="100px"; ></div>
+                                <br>
+                                <input type="text" class="form-control" name='Fname' placeholder="First Name"/>
+                                <br>
+                                <input type="text" class="form-control" name="Lname" placeholder="Last Name"/>
+                                <br>
+                                <input type="text" class="form-control" name='DOB' placeholder="YYYY/MM/DD"
+                                       id="datepicker"/>
+                                <br>
+                                <input type="text" class="form-control" name='Address' placeholder="Address"/>
+                                <br>
+                                <input type="text" class="form-control" name='Phone' placeholder="Phone"/>
+                                <br>
+                                <input type="text" class="form-control" name='Email' placeholder="Email"/>
+                                <br>
+                                <input type="text" class="form-control" name='Zip' placeholder="Postal Code"/>
+                                <br>
+                                <button class="btn btn-primary btn-block">SIGN UP</button>
+
+
+                                <p class="text-center">
+                                    <a href="#" class="fliper-btn">Already have an account?</a>
+                                </p>
+
+                            </form>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+
+</div><!-- /.container -->
+
+<script type="text/javascript">
+    $('.fliper-btn').click(function () {
+        $('.flip').find('.card').toggleClass('flipped');
+
+    });
+</script>
 </body>
 </html>
+

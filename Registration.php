@@ -10,11 +10,11 @@ require_once "dbConfig.php";
 
 $Fname = mysqli_escape_string ($con, $_POST['Fname']);
 $Lname = mysqli_escape_string ($con, $_POST['Lname']);
-$Date = mysqli_escape_string ($con, $_POST['datepicker']);
-$Address = mysqli_escape_string ($con, $_POST['add']);
-$Phone = mysqli_escape_string ($con, $_POST['phone']);
-$Email = mysqli_escape_string ($con, $_POST['email']);
-$Zip = mysqli_escape_string ($con, $_POST['zip']);
+$Date = mysqli_escape_string ($con, $_POST['DOB']);
+$Address = mysqli_escape_string ($con, $_POST['Address']);
+$Phone = mysqli_escape_string ($con, $_POST['Phone']);
+$Email = mysqli_escape_string ($con, $_POST['Email']);
+$Zip = mysqli_escape_string ($con, $_POST['Zip']);
 
 $Username = $Fname . "_" . $Lname;
 $Password = implode (

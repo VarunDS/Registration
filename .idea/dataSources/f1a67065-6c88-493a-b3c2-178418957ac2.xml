@@ -9,63 +9,100 @@
     <schema id="3" parent="1" name="information_schema"/>
     <schema id="4" parent="1" name="mysql"/>
     <schema id="5" parent="1" name="performance_schema"/>
-    <table id="6" parent="2" name="Users"/>
-    <column id="7" parent="6" name="Fname">
+    <table id="6" parent="2" name="Notifications"/>
+    <table id="7" parent="2" name="Users"/>
+    <column id="8" parent="6" name="id">
+      <Position>1</Position>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="9" parent="6" name="date_time">
+      <Position>2</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="10" parent="6" name="user_id">
+      <Position>3</Position>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="11" parent="6" name="sql_query">
+      <Position>4</Position>
+      <DataType>varchar(1500)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="12" parent="6" name="status">
+      <Position>5</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="13" parent="6" name="Notifications_Users_FK">
+      <ColNames>user_id</ColNames>
+    </index>
+    <foreign-key id="14" parent="6" name="Notifications_Users_FK">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>userportal_db</RefSchemaName>
+      <RefTableName>Users</RefTableName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <column id="15" parent="7" name="Fname">
       <Position>1</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="8" parent="6" name="Lname">
+    <column id="16" parent="7" name="Lname">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="9" parent="6" name="Date">
-      <Position>3</Position>
-      <DataType>date|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="10" parent="6" name="Address">
+    <column id="17" parent="7" name="Address">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="11" parent="6" name="Phone">
+    <column id="18" parent="7" name="Phone">
       <Position>5</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="12" parent="6" name="Email">
+    <column id="19" parent="7" name="Email">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="13" parent="6" name="Zip">
+    <column id="20" parent="7" name="Zip">
       <Position>7</Position>
       <DataType>int(6)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="14" parent="6" name="Username">
+    <column id="21" parent="7" name="Username">
       <Position>8</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="15" parent="6" name="Password">
+    <column id="22" parent="7" name="Password">
       <Position>9</Position>
       <DataType>varchar(16)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="16" parent="6" name="is_admin">
+    <column id="23" parent="7" name="is_admin">
       <Position>10</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="17" parent="6" name="ID">
+    <column id="24" parent="7" name="ID">
       <Position>11</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <key id="18" parent="6" name="PRIMARY">
+    <column id="25" parent="7" name="DOB">
+      <Position>3</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="26" parent="7" name="PRIMARY">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>

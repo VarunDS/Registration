@@ -20,6 +20,7 @@ if (mysqli_num_rows($result) > 0){
     $row = mysqli_fetch_array($result);
     $_SESSION['id'] = $row['ID'];
     $_SESSION['name']=$row['Fname'].' '.$row['Lname'];
+    $_SESSION['email']=$row['Email'];
     header('Location: Home.php', true);
 
 } else {
