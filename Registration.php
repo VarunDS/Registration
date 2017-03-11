@@ -28,7 +28,7 @@ $ID = md5 ($Password, false);
 
 $insert_query = "INSERT INTO Users" .
                 " VALUES('" . $Fname . "','" . $Lname . "','" . $Date . "','" . $Address . "','" . $Phone . "','" . $Email .
-                "','" . $Zip . "','" . $Username . "','" . $Password . "',0,'" . $ID . "')";
+                "','" . $Zip . "','" . $Username . "','" . $Password . "','".$ID."')";
 $result = mysqli_query ($con, $insert_query)
 or die("Query couldn't be processed");
 

@@ -49,3 +49,19 @@
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
+
+.ok-cstm {
+    background-color: #2b542c;
+    border-radius: 100px;
+    font-size: 22px;
+    padding: 3px;
+
+}
+
+.remove-cstm{
+    background-color: #d43f3a;
+    border-radius: 20px;
+    font-size: 22px;
+    padding: 3px;
+}
+

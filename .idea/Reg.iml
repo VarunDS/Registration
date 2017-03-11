@@ -15,5 +15,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="bootstrap-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="module" module-name="datatable-demo-server-side-in-phpmysql-and-ajax" />
   </component>
 </module>

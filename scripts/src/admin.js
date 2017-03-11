@@ -1,12 +1,55 @@
 /**
+ * Created by Admin on 09/03/17.
+ */
+/**
  * Created by Admin on 02/03/17.
  */
 $(window).load(function () {
     $(".loader").fadeOut("slow");
 });
 
+
 $(document).ready(function () {
     loadForm();
+    $('#userTable').DataTable({
+        'columnDefs': [
+            {
+                'orderable': false,
+                'targets': 4
+            },
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            }
+        ],
+        'select': {
+            'style': 'multi'
+        },
+        order: [[1, 'asc']]
+    });
+    $('#messageTable').DataTable({
+
+        'columnDefs': [
+            {
+                'orderable': false,
+                'targets': 5
+            },
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            }
+        ],
+        'select': {
+            'style': 'multi'
+        },
+        order: [[1, 'asc']]
+    });
+
+
 });
 
 function ajaxCall_UserProf() {
@@ -27,7 +70,7 @@ function loadForm() {
     request.success(function (data) {
         if (data['notification'] == 1) {
             $('#user_profile_messages').html('Please check your inbox for details!');
-            $('#user_profile_messages').addClass('alert alert-warning');
+            $('#user_profile_messages').addClass('alert alert-info');
             $('#user_profile :input').prop("disabled", true);
         }
         for (var k in data) {
@@ -63,7 +106,7 @@ $(function () {
         });
         request.success(function (response) {
             if (response['insert_flag'] === 1) {
-                $('#user_profile_messages').addClass('alert alert-success');
+                $('#user_profile_messages').addClass('alert alert-info');
                 $('#user_profile :input').prop("disabled", true);
             }
 
