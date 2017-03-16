@@ -158,7 +158,6 @@ require_once "dbConfig.php"; ?>
                         <button type="submit" class="btn btn-warning">Reset <span
                                     class="glyphicon glyphicon-refresh"></span></button>
                     </div>
-
                 </div>
                 <div id="user_profile_messages"></div>
             </form>
@@ -167,50 +166,68 @@ require_once "dbConfig.php"; ?>
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Users</strong></div>
                 <div class="panel-body">
-                    <div class="container text-center" style="width: 992px">
-                        <table id="userTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>
-                                    <span class="glyphicon glyphicon-option-horizontal"
-                                          style="font-size: 20px"></span>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td style="width: 115px;">
-                                    <div class="btn-group">
-                                        <button type="button"
-                                                class="btn btn-default glyphicon glyphicon-eye-open"></button>
-                                        <div class="btn-group">
-                                            <button type="button"
-                                                    class="btn btn-default glyphicon glyphicon-cog dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu" style="white-space: nowrap">
-                                                <li><i class="glyphicon glyphicon-pencil"
-                                                       style="padding: 10px;"></i><span
-                                                            style="padding-left: 10px">Edit</span</li>
-                                                <li class="divider"></li>
-                                                <li><i class="glyphicon glyphicon-trash" style="padding: 10px"></i><span
-                                                            style="padding-left: 10px">Delete</span</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                Filters
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="Filters" role="menu">
+
+                            </ul>
+                        </div><!-- /btn-group -->
+                        <input type="text" class="form-control">
+
                     </div>
+
+                    <table id="userTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="btn-group">
+                                    <label class="btn btn-default ">
+                                        <input type="checkbox">  <!-- type checkbox -->
+                                    </label>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            style="height: 30px" data-toggle="dropdown">
+                                        <span class="caret"></span>  <!-- caret -->
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu"> <!-- class dropdown-menu -->
+                                        <li><i class="glyphicon glyphicon-duplicate" style="padding: 10px"></i><span
+                                                    style="padding-left: 10px">Merge</span></li>
+                                        <li class="divider"></li>
+                                        <li><i class="glyphicon glyphicon-trash" style="padding: 10px"></i><span
+                                                    style="padding-left: 10px">Delete</span></li>
+                                        <li class="divider"></li>
+                                        <li><i class="glyphicon glyphicon-export" style="padding: 10px"></i><span
+                                                    style="padding-left: 10px">Export</span></li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th style="width: 51px">
+                                <span class="glyphicon glyphicon-option-horizontal"
+                                      style="font-size: 20px"></span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -224,12 +241,12 @@ require_once "dbConfig.php"; ?>
                             <div><?php
                                 $permissionsGrantedQuery
                                     = "SELECT perm_desc 
-                                            FROM permissions p          
-                                            INNER JOIN role_perm rp       
-                                            ON p.perm_id=rp.perm_id   
-                                            INNER JOIN user_role ur   
-                                            ON  rp.role_id=ur.role_id   
-                                            WHERE ur.user_id='" . $_SESSION['id'] . "'";
+                                        FROM permissions p          
+                                        INNER JOIN role_perm rp       
+                                        ON p.perm_id=rp.perm_id   
+                                        INNER JOIN user_role ur   
+                                        ON  rp.role_id=ur.role_id   
+                                        WHERE ur.user_id='" . $_SESSION['id'] . "'";
                                 $permissionsGranted = mysqli_query ($con, $permissionsGrantedQuery);
                                 ?>
                                 <ul class="list-group"
@@ -245,14 +262,14 @@ require_once "dbConfig.php"; ?>
                                     }
                                     $allPermissionsQuery
                                         = "SELECT pi.perm_desc    
-                                            FROM permissions pi  
-                                            WHERE pi.perm_id   
-                                            NOT IN (SELECT p.perm_id 
-                                            FROM permissions p 
-                                            INNER JOIN role_perm rp ON p.perm_id=rp.perm_id 
-                                            INNER JOIN user_role ur 
-                                            ON  rp.role_id=ur.role_id 
-                                            WHERE ur.user_id='" . $_SESSION['id'] . "')";
+                                        FROM permissions pi  
+                                        WHERE pi.perm_id   
+                                        NOT IN (SELECT p.perm_id 
+                                        FROM permissions p 
+                                        INNER JOIN role_perm rp ON p.perm_id=rp.perm_id 
+                                        INNER JOIN user_role ur 
+                                        ON  rp.role_id=ur.role_id 
+                                        WHERE ur.user_id='" . $_SESSION['id'] . "')";
                                     $allPermissions = mysqli_query ($con, $allPermissionsQuery);
                                     while ($allPermissionsRows = mysqli_fetch_array ($allPermissions)) { ?>
                                         <li class="list-group-item list-group-item-danger"
@@ -323,47 +340,51 @@ require_once "dbConfig.php"; ?>
                 <div class="panel-body">
                     <div class="container text-center" style="width: 992px">
                         <table id="messageTable" class="table table-striped table-bordered" cellspacing="0"
-                        "width="100%">
-                        <thead>
-                        <tr>
-                            <th>Sender</th>
-                            <th>Subject</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Message type</th>
-                            <th>
-                                    <span class="glyphicon glyphicon-option-horizontal"
-                                          style="font-size: 20px"></span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td style="width: 115px;">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default glyphicon glyphicon-eye-open"></button>
+                               width="100%">
+                            <thead>
+
+                            <tr>
+
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+
+                                <th>
+                                <span class="glyphicon glyphicon-option-horizontal"
+                                      style="font-size: 20px"></span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>Name</td>
+                                <td>Position</td>
+                                <td>Office</td>
+                                <td>Age</td>
+                                <td style="width: 115px;">
                                     <div class="btn-group">
                                         <button type="button"
-                                                class="btn btn-default glyphicon glyphicon-cog dropdown-toggle"
-                                                data-toggle="dropdown">
-                                            <span class="caret"></span></button>
-                                        <ul class="dropdown-menu" role="menu" style="white-space: nowrap">
-                                            <li><i class="glyphicon glyphicon-pencil" style="padding: 10px;"></i><span
-                                                        style="padding-left: 10px">Edit</span</li>
-                                            <li class="divider"></li>
-                                            <li><i class="glyphicon glyphicon-trash" style="padding: 10px"></i><span
-                                                        style="padding-left: 10px">Delete</span</li>
-                                        </ul>
+                                                class="btn btn-default glyphicon glyphicon-eye-open"></button>
+                                        <div class="btn-group">
+                                            <button type="button"
+                                                    class="btn btn-default glyphicon glyphicon-cog dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu" style="white-space: nowrap">
+                                                <li><i class="glyphicon glyphicon-pencil"
+                                                       style="padding: 10px;"></i><span
+                                                            style="padding-left: 10px">Edit</span></li>
+                                                <li class="divider"></li>
+                                                <li><i class="glyphicon glyphicon-trash" style="padding: 10px"></i><span
+                                                            style="padding-left: 10px">Delete</span></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
+                                </td>
+                            </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>

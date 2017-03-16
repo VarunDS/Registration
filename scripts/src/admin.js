@@ -11,45 +11,88 @@ $(window).load(function () {
 
 $(document).ready(function () {
     loadForm();
-    $('#userTable').DataTable({
+    var table = $('#userTable').DataTable({
+        "lengthChange": false,
+        "searching": false,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "ajax_UserFeed_DataTable.php", // json datasource
+            type: "post",  // method  , by default get
+            error: function () {  // error handling
+                $(".userTable-error").html("");
+                $("#userTable").append('<tbody class="userTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#userTable").css("display", "none");
+
+
+            }
+        },
         'columnDefs': [
             {
+                'targets': 0,
+                'searchable': false,
                 'orderable': false,
-                'targets': 4
+                'className': 'dt-body-center',
+                'render': function (data, type, full, meta) {
+                    return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                }
             },
             {
-                'targets': 0,
-                'checkboxes': {
-                    'selectRow': true
-                }
-            }
-        ],
-        'select': {
-            'style': 'multi'
-        },
-        order: [[1, 'asc']]
-    });
-    $('#messageTable').DataTable({
+                'orderable': false,
+                'targets': -1,
+                "render": function () {
 
-        'columnDefs': [
-            {
-                'orderable': false,
-                'targets': 5
-            },
-            {
-                'targets': 0,
-                'checkboxes': {
-                    'selectRow': true
+                    return "<td style='width: 115px;'><div class='btn-group'><button type='button' class='btn btn-default glyphicon glyphicon-eye-open'></button>" +
+                        "<div class='btn-group'><button type='button' class='btn btn-default glyphicon glyphicon-cog dropdown-toggle' data-toggle='dropdown'>" +
+                        "<span class='caret'></span></button>" +
+                        "<ul class='dropdown-menu' role='menu' style='white-space: nowrap'>" +
+                        "<li><i class='glyphicon glyphicon-pencil' style='padding: 10px;'></i>" +
+                        "<span style='padding-left: 10px'>Edit</span></li>" +
+                        "<li class='divider'></li>" +
+                        "<li><i class='glyphicon glyphicon-trash' style='padding: 10px'></i>" +
+                        "<span style='padding-left: 10px'>Delete</span></li>" +
+                        "</ul></div></div></td>";
                 }
-            }
+            },
+
+
         ],
-        'select': {
-            'style': 'multi'
-        },
+
         order: [[1, 'asc']]
     });
 
 
+    table.on('xhr', function () {
+        var json = table.ajax.json();
+        for (i = 0; i < json.columns.length; i++) {
+
+            $("#Filters").append('<li id=' + i + ' style="padding-left: 10px; cursor: pointer">' + json.columns[i] + '</li>');
+
+            if (i < json.columns.length - 1) {
+                $("#Filters").append('<li class="divider"></li>');
+            }
+
+        }
+    });
+
+
+    $('#example-select-all').on('click', function () {
+
+        if (this.checked == true)
+            $("input[type=checkbox]").prop('checked', true).uniform();
+        else if (this.checked == false) {
+            $("input[type=checkbox]").prop('checked', false).uniform();
+        }
+
+
+    })
+
+    $('#Filters').on("click", "li", function() {
+        var content=$(this).text();
+
+        $('input[name="filter-value"]').html("<input type='button' value='HEY'>");
+
+    });
 });
 
 function ajaxCall_UserProf() {
