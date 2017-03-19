@@ -65,16 +65,5 @@
     padding: 3px;
 }
 
-.form-group {
-    position: relative;
-}
 
-input[type="text"] {
-    padding-left: 60px;
-}
 
-.label-danger {
-    position: absolute;
-    left: 3px;
-    top: 5px;
-}

@@ -15,6 +15,13 @@ $columns = array(
     3 => 'Phone'
 );
 
+$columns_tags = array(
+    "First Name" => 'Fname',
+    "Last Name" => 'Lname',
+    "Email" => 'Email',
+    "Phone" => 'Phone'
+);
+
 //Writing the basic search query without any search and sort
 $sql = "SELECT ID,Fname,Lname,Email,Phone FROM Users";
 $query = mysqli_query ($con, $sql);
@@ -23,11 +30,30 @@ $filteredData = $totalData;//Initially as filters are absent, we assign the equa
 //filtered data and total data
 
 
-//now we write a sql query in case we have filters
+//now we write a sql query in case we have filters and tags applied
 $sql = "SELECT ID,Fname,Lname,Email,Phone FROM Users WHERE 1=1";
-if (!empty($_POST['search']['value'])) {
-    $sql .= "AND ( Fname LIKE '" . $_POST['search']['value'] . "%' OR Lname LIKE '" . $_POST['search']['value'] . "%'";
-    $sql .= "OR Email LIKE '" . $_POST['search']['value'] . "%' OR Phone LIKE '" . $_POST['search']['value'] . "%'";
+$arrayTags = array();
+$arrayTags = explode (",", $_POST['arrayTags']);
+if (!empty($_POST['search']['value']) && $arrayTags[0] != "") {
+    $sql .= " AND (";
+
+    if (count ($arrayTags) == 1) {
+        $sql .= $columns_tags[$arrayTags[0]] . " LIKE '" . $_POST['search']['value'] . "%'";
+    } else {
+        foreach ($arrayTags as $tags) {
+            if ($tags === end ($arrayTags)) {
+                $sql .= $columns_tags[$tags] . " LIKE '" . $_POST['search']['value'] . "%'";
+            }else{
+                $sql .= $columns_tags[$tags] . " LIKE '" . $_POST['search']['value'] . "%' OR ";
+            }
+
+
+        }
+    }
+    $sql .= ")";
+} else if (!empty($_POST['search']['value'])) {
+    $sql .= " AND ( Fname LIKE '" . $_POST['search']['value'] . "%' OR Lname LIKE '" . $_POST['search']['value'] . "%'";
+    $sql .= "OR Email LIKE '" . $_POST['search']['value'] . "%' OR Phone LIKE '" . $_POST['search']['value'] . "%')";
 }
 //Applying orders that are applied to the datatable from the client side
 $query = mysqli_query ($con, $sql) or die("Query Couldn't be Processed");
@@ -51,16 +77,15 @@ if (count ($sqlOrderArray) > 1) {
 $sql .= "  LIMIT " . $_POST['start'] . " ," . $_POST['length'] . "  ";
 $query = mysqli_query ($con, $sql) or die("Query couldn't be processed");
 $data = array();
-//$html="<h1>HEY</h1>";
+
 while ($row = mysqli_fetch_array ($query)) {  // preparing an array
     $nestedData = array();
-    $nestedData[]=$row["ID"];
+    $nestedData[] = $row["ID"];
     $nestedData[] = $row["Fname"];
     $nestedData[] = $row["Lname"];
     $nestedData[] = $row["Email"];
     $nestedData[] = $row["Phone"];
-  //  $nestedData[] = $html;
-
+    //  $nestedData[] = $html;
 
 
     $data[] = $nestedData;
@@ -68,7 +93,7 @@ while ($row = mysqli_fetch_array ($query)) {  // preparing an array
 
 
 $json_data = array(
-    "columns"=>array(0=>"First Name",1=>"Last Name",2=>"Email",3=>"Phone"),
+    "columns" => array(0 => "First Name", 1 => "Last Name", 2 => "Email", 3 => "Phone"),
     "draw" => intval ($requestData['draw']),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
     "recordsTotal" => intval ($totalData),  // total number of records
     "recordsFiltered" => intval ($filteredData), // total number of records after searching, if there is no searching then totalFiltered = totalData

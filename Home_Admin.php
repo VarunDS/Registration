@@ -5,7 +5,6 @@ require_once "dbConfig.php"; ?>
     <link rel="stylesheet" href="styles/src/loader.css">
 
     <script src="scripts/min/jquery/jquery-2.2.4.min.js"></script>
-    <script src="scripts/min/jquery/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -14,19 +13,22 @@ require_once "dbConfig.php"; ?>
     <script src=" https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <link rel="stylesheet" href=" //maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
-    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.1.0/css/dataTables.checkboxes.css"
-          rel="stylesheet"/>
-    <script type="text/javascript"
-            src="//gyrocode.github.io/jquery-datatables-checkboxes/1.1.0/js/dataTables.checkboxes.min.js"></script>
+    <script src='scripts/min/bootstrap/bootstrap-tags.min.js'></script>
+    <script src='scripts/min/bootstrap/bootstrap-tagsinput.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="styles/src/bootstrap-tags.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/src/bootstrap-tagsinput.css"/>
+
     <script src="scripts/src/admin.js"></script>
+
     <link rel="stylesheet" href="styles/src/home.css">
+    <
 </head>
 <body style="background: url('images/BodyBG.jpg')">
 <div class="loader">
 </div>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: silver">
-    <div class="container">
+    <div class="container  text-center">
         <div class="navbar-header">
         </div>
         <div class="collapse navbar-collapse">
@@ -166,20 +168,36 @@ require_once "dbConfig.php"; ?>
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Users</strong></div>
                 <div class="panel-body">
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                Filters
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" id="Filters" role="menu">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">Filters<span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" id="Filters" role="menu">
+                                    </ul>
+                                </div><!-- /btn-group -->
+                                <div class="input-group"><input type="text" class="form-control" id="tagsInputSearch"
+                                                                data-role="tagsinput" placeholder="Search Filters">
 
-                            </ul>
-                        </div><!-- /btn-group -->
-                        <input type="text" class="form-control">
-
+                                    <button type="button" class="btn btn-primary" id="filter_search">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="keyword_search"
+                                       placeholder="Search Keywords">
+                                <span class="input-group-btn">
+                                <button class="btn btn-primary" id="click_keyword_search" type="button">Go!</button>
+                            </span>
+                            </div>
+                        </div>
                     </div>
+
 
                     <table id="userTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
@@ -187,7 +205,7 @@ require_once "dbConfig.php"; ?>
                             <th>
                                 <div class="btn-group">
                                     <label class="btn btn-default ">
-                                        <input type="checkbox">  <!-- type checkbox -->
+                                        <input type="checkbox" id="example-select-all">  <!-- type checkbox -->
                                     </label>
                                     <button type="button" class="btn btn-default dropdown-toggle"
                                             style="height: 30px" data-toggle="dropdown">
@@ -211,8 +229,8 @@ require_once "dbConfig.php"; ?>
                             <th>Email</th>
                             <th>Phone</th>
                             <th style="width: 51px">
-                                <span class="glyphicon glyphicon-option-horizontal"
-                                      style="font-size: 20px"></span>
+                            <span class="glyphicon glyphicon-option-horizontal"
+                                  style="font-size: 20px"></span>
                             </th>
                         </tr>
                         </thead>
@@ -235,7 +253,7 @@ require_once "dbConfig.php"; ?>
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>My Rights</strong></div>
                 <div class="panel-body"></div>
-                <div class="container" style="padding-top: 10px">
+                <div class="container  text-center" style="padding-top: 10px">
                     <div class="row" style="width: 1098px">
                         <div class="col-xs-3">
                             <div><?php
@@ -262,14 +280,14 @@ require_once "dbConfig.php"; ?>
                                     }
                                     $allPermissionsQuery
                                         = "SELECT pi.perm_desc    
-                                        FROM permissions pi  
-                                        WHERE pi.perm_id   
-                                        NOT IN (SELECT p.perm_id 
-                                        FROM permissions p 
-                                        INNER JOIN role_perm rp ON p.perm_id=rp.perm_id 
-                                        INNER JOIN user_role ur 
-                                        ON  rp.role_id=ur.role_id 
-                                        WHERE ur.user_id='" . $_SESSION['id'] . "')";
+                                            FROM permissions pi  
+                                            WHERE pi.perm_id   
+                                            NOT IN (SELECT p.perm_id 
+                                            FROM permissions p 
+                                            INNER JOIN role_perm rp ON p.perm_id=rp.perm_id 
+                                            INNER JOIN user_role ur 
+                                            ON  rp.role_id=ur.role_id 
+                                            WHERE ur.user_id='" . $_SESSION['id'] . "')";
                                     $allPermissions = mysqli_query ($con, $allPermissionsQuery);
                                     while ($allPermissionsRows = mysqli_fetch_array ($allPermissions)) { ?>
                                         <li class="list-group-item list-group-item-danger"
@@ -358,7 +376,6 @@ require_once "dbConfig.php"; ?>
                             </thead>
                             <tbody>
                             <tr>
-
                                 <td>Name</td>
                                 <td>Position</td>
                                 <td>Office</td>
