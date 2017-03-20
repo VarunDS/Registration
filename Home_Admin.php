@@ -172,8 +172,11 @@ require_once "dbConfig.php"; ?>
                         <div class="col-md-9">
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+
+                                    <button type="button" class=" btn btn-default btn-md dropdown-toggle"
+                                            data-toggle="dropdown"
                                             aria-expanded="false">Filters<span class="caret"></span>
+
                                     </button>
                                     <ul class="dropdown-menu" id="Filters" role="menu">
                                     </ul>
@@ -192,9 +195,26 @@ require_once "dbConfig.php"; ?>
                                 <input type="text" class="form-control" id="keyword_search"
                                        placeholder="Search Keywords">
                                 <span class="input-group-btn">
-                                <button class="btn btn-primary" id="click_keyword_search" type="button">Go!</button>
+                                <button class="btn btn-primary" id="click_keyword_search" type="button">
+                                    <span class="glyphicon glyphicon-search" style="height: 20px"></span>
+                                </button>
                             </span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="clear_filters_keywords" style="padding-top: 10px" hidden>
+                        <div class="col-md-6">
+                            <button type="button" id="remove_filters" class="btn btn-xs  ">
+                                <span class="glyphicon glyphicon-filter" style="padding-right: 10px"></span> Filters
+                                <span class="glyphicon glyphicon-remove remFilter"></span>
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="remove_keywords" class="btn  btn-xs pull-right">
+                                <span class="glyphicon glyphicon-search " style="padding-right: 10px"></span> Keywords
+                                <span class="glyphicon glyphicon-remove remSearch"></span>
+                            </button>
                         </div>
                     </div>
 
