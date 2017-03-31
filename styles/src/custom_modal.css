@@ -1,0 +1,26 @@
+.close{
+    color: #fff;
+    opacity: 1;
+    font-size: 25px;
+}
+
+.modal-header,.close {
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+    background-color: #2a6496;
+    text-transform: capitalize;
+    padding: 10px;
+
+
+}
+.modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.modal-footer {
+    background-color: #2a6496;
+}
+

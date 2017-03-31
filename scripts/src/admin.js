@@ -1,7 +1,4 @@
 /**
- * Created by Admin on 09/03/17.
- */
-/**
  * Created by Admin on 02/03/17.
  */
 $(window).load(function () {
@@ -61,11 +58,11 @@ $(document).ready(function () {
                         "<div class='btn-group'><button type='button' class='btn btn-default glyphicon glyphicon-cog dropdown-toggle' data-toggle='dropdown'>" +
                         "<span class='caret'></span></button>" +
                         "<ul class='dropdown-menu' role='menu' style='white-space: nowrap'>" +
-                        "<li><i class='glyphicon glyphicon-pencil' style='padding: 10px;'></i>" +
-                        "<span style='padding-left: 10px'>Edit</span></li>" +
+                        "<li><i class='glyphicon glyphicon-pencil' style='padding: 5px;'></i>" +
+                        "<span style='padding-left: 2px; white-space: nowrap'>Edit</span></li>" +
                         "<li class='divider'></li>" +
-                        "<li><i class='glyphicon glyphicon-trash' style='padding: 10px'></i>" +
-                        "<span style='padding-left: 10px'>Delete</span></li>" +
+                        "<li><i class='glyphicon glyphicon-trash' style='padding: 5px'></i>" +
+                        "<span style='padding-left: 2px; white-space: nowrap'>Delete</span></li>" +
                         "</ul></div></div></td>";
                 }
             },
@@ -74,6 +71,118 @@ $(document).ready(function () {
         ],
 
         order: [[1, 'asc']]
+    });
+
+    var roles_table = $('#roles_table').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "ajax_RoleFeed_DataTable.php", // json datasource
+            "type": "POST",  // method  , by default get
+            error: function () {
+                $("#roles_table").append('<tbody class="roles_table-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#roles_table").css("display", "none");
+            }
+        },
+        'lengthChange': false,
+        "dom": '<l<t>ip>',
+        "responsive": true,
+
+        'columnDefs': [
+            {
+                'targets': 0,
+                'searchable': false,
+                'orderable': false,
+                'className': 'dt-body-center',
+                'render': function (data, type, full, meta) {
+                    return '<input type="checkbox" id="' + $('<div/>').text(data).html() + '" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                }
+            },
+            {
+                'targets': 3,
+                'searchable': false,
+                'orderable': false,
+                'className': 'dt-body-center',
+                'render': function (data, type, full, meta) {
+                    if (data == 1) {
+                        return '<input type="checkbox" name="my-checkbox" checked>';
+                    }
+                    else {
+                        return '<input type="checkbox" name="my-checkbox" >';
+                    }
+                }
+
+            },
+            {
+                'orderable': false,
+                'targets': -1,
+                "render": function (data, type, full, meta) {
+
+                    return '<td style="width:148px; white-space: nowrap"><div class="Toolbar">' +
+                        '<div>' +
+                        '<div class="btn-group">' +
+                        '<button id="ButtonView_' + $('<div/>').text(data).html() + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></button>' +
+                        '<button id="ButtonUpdate" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></button>' +
+                        '<button id="ButtonDelete" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-trash"></span></button>' +
+                        '<button id="ButtonExport" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-export"></span></button>' +
+                        '</div>' +
+                        '</div></td>'
+
+
+                }
+            }
+        ],
+        "drawCallback": function (settings) {
+            $("[name='my-checkbox']").bootstrapSwitch('disabled', true);
+        },
+        order: [[1, 'asc']],
+
+
+    });
+
+    $("#roles_table tbody").on("click", 'button', function (e) {
+
+
+        var data = roles_table.row($(this).parents('tr')).data();
+        $('#edit').modal('show');
+
+
+        $('#switch').html('<label for="formGroupExampleInput">Role Status </label>' +
+            '<input id="role_status_' + data[0] + '" name="role_status" type="checkbox" class="myClass">');
+
+        if ($('#modal-header:contains("View")').length === 0) {
+            $('#modal-header').prepend("View " + data[1]);
+        }
+        else {
+
+            $("#modal-header").contents().filter(function () {
+                return this.nodeType == 3;
+            }).remove();
+            $('#modal-header').prepend("View " + data[1]);
+        }
+
+
+        $('#role_id').val(data[0]);
+        $('#role_name').val(data[1]);
+        $('#role_desc').val(data[2]);
+
+        if (data[3] == 1) {
+            $('#role_status_' + data[0]).bootstrapSwitch('state', true, true);
+            $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
+            $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
+                console.log(event);
+                $('#submit_button').attr("disabled", false);
+            });
+        }
+        else {
+            $('#role_status_' + data[0]).bootstrapSwitch('state', false, false);
+            $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
+            $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
+                console.log(event);
+                $('#submit_button').attr("disabled", false);
+            });
+        }
+
     });
 
 
@@ -162,7 +271,7 @@ $(document).ready(function () {
 
     $('#remove_filters').on('click', function () {
         $('#tagsInputSearch').tagsinput('removeAll');
-        arrayTags_global.length=0;
+        arrayTags_global.length = 0;
         toggleElements(arrayTags_global, $('#keyword_search').val());
     })
 
@@ -171,10 +280,6 @@ $(document).ready(function () {
         toggleElements(arrayTags_global, $('#keyword_search').val());
 
     })
-
-    $('#userTable tbody').on( 'click', 'td', function () {
-        alert( table.cell( this ).data() );
-    } );
 
 
 });
@@ -185,23 +290,23 @@ function toggleElements(tags, searchKeyword) {
     if (tags.length !== 0 || searchKeyword !== "") {
         $('#clear_filters_keywords').fadeIn();
         if (tags.length !== 0) {
-            $('#remove_filters').addClass('btn-danger').prop('disabled',false);
+            $('#remove_filters').addClass('btn-danger').prop('disabled', false);
         }
         else {
-            $('#remove_filters').prop('disabled',true).removeClass('btn-danger');
+            $('#remove_filters').prop('disabled', true).removeClass('btn-danger');
         }
         if (searchKeyword !== "") {
-            $('#remove_keywords').addClass('btn-danger').prop('disabled',false);
+            $('#remove_keywords').addClass('btn-danger').prop('disabled', false);
         }
         else {
-            $('#remove_keywords').prop('disabled',true).removeClass('btn-danger');
+            $('#remove_keywords').prop('disabled', true).removeClass('btn-danger');
         }
     }
 
 
     if (tags.length === 0 && searchKeyword === "") {
-        $('#remove_filters').prop('disabled',true).removeClass('btn-danger');
-        $('#remove_keywords').prop('disabled',true).removeClass('btn-danger');
+        $('#remove_filters').prop('disabled', true).removeClass('btn-danger');
+        $('#remove_keywords').prop('disabled', true).removeClass('btn-danger');
         $('#clear_filters_keywords').fadeOut();
     }
     $('#userTable').DataTable().search(
@@ -217,7 +322,9 @@ function ajaxCall_UserProf() {
     });
     return request;
 }
-
+function hey() {
+    alert("ey");
+}
 function loadForm() {
     var request = ajaxCall_UserProf();
     request.error(function () {
@@ -234,6 +341,11 @@ function loadForm() {
         }
 
     })
+}
+
+function buttonViewClicked(object) {
+
+
 }
 
 

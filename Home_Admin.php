@@ -8,7 +8,6 @@ require_once "dbConfig.php"; ?>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script src=" https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <link rel="stylesheet" href=" //maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -21,13 +20,13 @@ require_once "dbConfig.php"; ?>
     <script src="scripts/src/admin.js"></script>
 
     <link rel="stylesheet" href="styles/src/home.css">
-    <
+
 </head>
 <body style="background: url('images/BodyBG.jpg')">
 <div class="loader">
 </div>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: silver">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: silver">
     <div class="container  text-center">
         <div class="navbar-header">
         </div>
@@ -77,6 +76,7 @@ require_once "dbConfig.php"; ?>
 </div>
 
 <div style="padding: 70px;">
+
     <ul id="myTab" class="nav nav-tabs">
         <li class="active"><a href="#UserProfile" data-toggle="tab">User Profile</a></li>
         <li class=""><a href="#users" data-toggle="tab">Users</a></li>
@@ -84,6 +84,7 @@ require_once "dbConfig.php"; ?>
         <li class=""><a href="#messages" data-toggle="tab" class="label label-info" style="border-radius: 25px;  ">My
                 Messages <span class="badge">3</span></a></li>
         <li class=""><a href="#notifications" data-toggle="tab">My Notifications</a></li>
+        <li class=""><a href="#roles_perm" data-toggle="tab">Roles & Permissions</a></li>
     </ul>
     <div id="myTabContent" class="tab-content" style="padding-top: 10px; ">
         <div class="tab-pane fade active in" id="UserProfile" style="background-color: silver">
@@ -166,7 +167,8 @@ require_once "dbConfig.php"; ?>
         </div>
         <div class="tab-pane fade" id="users">
             <div class="panel panel-default">
-                <div class="panel-heading"><strong>Users</strong></div>
+                <div class="panel-heading"><strong>Users</strong><i style="padding-left: 2px"
+                                                                    class="glyphicon glyphicon-user"></i></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-9">
@@ -219,7 +221,8 @@ require_once "dbConfig.php"; ?>
                     </div>
 
 
-                    <table id="userTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="userTable" class="table table-striped table-bordered display compact" cellspacing="0"
+                           width="100%">
                         <thead>
                         <tr>
                             <th>
@@ -262,7 +265,6 @@ require_once "dbConfig.php"; ?>
                             <td></td>
                             <td></td>
                             <td></td>
-
                         </tr>
                         </tbody>
                     </table>
@@ -428,6 +430,16 @@ require_once "dbConfig.php"; ?>
             </div>
         </div>
         <div class="tab-pane fade" id="notifications">My notifications</div>
+        <div class="tab-pane fade" id="roles_perm">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>Roles & Permissions</strong><i style="padding-left: 4px"
+                                                                                  class="glyphicon glyphicon-briefcase"></i>
+                </div>
+                <div class="panel-body">
+                    <?php include 'Roles_UI_COMP.php' ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
