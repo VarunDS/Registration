@@ -28,7 +28,10 @@ while ($row_all = mysqli_fetch_assoc ($result_all)) {
     $result_array_all[] = $row_all;
 }
 
-echo json_encode (array(
-                'granted_permission' => $result_array,
-                'all_permission' => $result_array_all
-                  ));
+
+echo json_encode (
+    array(
+        'granted_permission' => $result_array,
+        'all_permission' => $result_array_all
+    )
+);

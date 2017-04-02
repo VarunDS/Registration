@@ -61,15 +61,16 @@
                              aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <div id='modal-header' class="modal-header">
+                                    <div id='modal-header' class="modal-header ">
                                         <span style="padding-left: 5px" class="glyphicon glyphicon-info-sign"></span>
                                         <button type="button" class="close" data-dismiss="modal" style="color: white"
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body" style="background-color: darkgray">
-                                        <div class="btn-group btn-group-sm" role="group">
+                                    <div style="background-color: white; height: 4px"></div>
+                                    <div class="modal-body">
+                                        <div id="toolbar" class="btn-group btn-group-sm" role="group">
                                             <button type="button" id="edit_button" class="btn btn-primary"><span
                                                         class="glyphicon glyphicon-pencil"
                                                         style="padding-right: 2px"></span> Edit
@@ -84,81 +85,72 @@
                                                         style="padding-right: 2px"></span>Duplicate
                                             </button>
                                         </div>
-
-                                        <div class="panel panel-default"
-                                             style="padding:10px; margin:10px 0 -10px 0; background-color: lightgrey; opacity: .8">
-
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <form id="viewForm">
-                                                        <div class="form-group">
-                                                            <input type="hidden" class="form-control"
-                                                                   name="role_id" id="role_id"
-                                                                   placeholder="Name">
+                                        <div class="panel-group" style="padding-top: 20px">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" href="#details">Details
+                                                            <span id="detailsPanel"
+                                                                  class="glyphicon glyphicon-plus pull-right"></span>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="details" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <form id="viewForm">
+                                                                    <div class="form-group">
+                                                                        <input type="hidden" class="form-control"
+                                                                               name="role_id" id="role_id"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="formGroupExampleInput">Role
+                                                                            Name</label>
+                                                                        <input type="text" class="form-control"
+                                                                               name="role_name"
+                                                                               id="role_name"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="formGroupExampleInput2">Role
+                                                                            Description</label>
+                                                                        <textarea name="role_desc" class="form-control"
+                                                                                  id="role_desc"
+                                                                                  placeholder="Description"></textarea>
+                                                                    </div>
+                                                                    <div id="switch" class="form-check"
+                                                                         style="padding-top: 10px">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="formGroupExampleInput">Role Name</label>
-                                                            <input type="text" class="form-control" name="role_name"
-                                                                   id="role_name"
-                                                                   placeholder="Name">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="formGroupExampleInput2">Role Description</label>
-                                                            <textarea name="role_desc" class="form-control"
-                                                                      id="role_desc"
-                                                                      placeholder="Description"></textarea>
-                                                        </div>
-                                                        <div id="switch" class="form-check" style="padding-top: 10px">
-                                                            <label for="formGroupExampleInput">Role Status</label>
-                                                            <input name="role_status" id="role_status" class="myClass"
-                                                                   type="checkbox">
-                                                        </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel-group" style="padding-top: 20px">
-                                            <div class="panel panel-default">
+                                        <div class="panel-group" style="padding-top: 2px">
+                                            <div class="panel panel-primary" >
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" href="#permissions">Permissions
-
-                                                            <span class="glyphicon glyphicon-plus pull-right"></span>
+                                                            <span id="permissionsPanel"
+                                                                  class="glyphicon glyphicon-plus pull-right"></span>
                                                         </a>
                                                     </h4>
                                                 </div>
                                                 <div id="permissions" class="panel-collapse collapse">
-                                                    <div id="permissionsBody" class="panel-body">
-                                                        <form id="permissionsForm">
+                                                    <div class="panel-body">
+                                                        <form style="margin-bottom: -10px" id="permissionsForm">
 
-                                                            <?php
-                                                            $sql_all = "SELECT perm_id,perm_desc FROM permissions WHERE 1=1";
-                                                            $result_all = mysqli_query ($con, $sql_all) or die ("Query cannot be processed");
-
-                                                            $result_array_all = array();
-                                                            while ($row_all = mysqli_fetch_assoc ($result_all)) {
-                                                                $result_array_all[] = $row_all;
-                                                            }
-                                                            foreach ($result_array_all as $key => $value) {
-                                                                ?>
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <label><?php echo $value['perm_desc'] ?></label>
-                                                                    </div>
-                                                                    <div class="col-md-6"><input type="checkbox"
-                                                                                                 id="<?php echo $value['perm_id'] ?>"
-                                                                                                 name="<?php echo $value['perm_desc'] ?>">
-                                                                    </div>
-                                                                </div>
-                                                                <?php
-                                                            }
-                                                            ?>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div style="background-color: white; height: 4px"></div>
                                     <div class="modal-footer" style="margin: 0px">
                                         <button type="submit" id="submit_button" class="btn btn-success"
                                                 data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign"></span>
@@ -183,6 +175,7 @@
                                     <div class="modal-body">
                                         Are you sure you want to Delete?
                                     </div>
+
                                     <div class="modal-footer">
                                         <button id="no_button" type="button" class="btn btn-danger"
                                                 data-dismiss="modal"> <span

@@ -141,47 +141,51 @@ $(document).ready(function () {
     });
 
     $("#roles_table tbody").on("click", 'button', function (e) {
+        if (this.id.indexOf("View") >= 0) {
+            var data = roles_table.row($(this).parents('tr')).data();
+            loadPermissions(data[0]);
+
+            $('#edit').modal('show');
 
 
-        var data = roles_table.row($(this).parents('tr')).data();
-        $('#edit').modal('show');
+            $('#switch').html('<label for="formGroupExampleInput">Role Status </label>' +
+                '<input id="role_status_' + data[0] + '" name="role_status" type="checkbox" class="myClass">');
+
+            if ($('#modal-header:contains("View")').length === 0) {
+                $('#modal-header').prepend("View " + data[1]);
+            }
+            else {
+
+                $("#modal-header").contents().filter(function () {
+                    return this.nodeType == 3;
+                }).remove();
+                $('#modal-header').prepend("View " + data[1]);
+            }
 
 
-        $('#switch').html('<label for="formGroupExampleInput">Role Status </label>' +
-            '<input id="role_status_' + data[0] + '" name="role_status" type="checkbox" class="myClass">');
+            $('#role_id').val(data[0]);
+            $('#role_name').val(data[1]);
+            $('#role_desc').val(data[2]);
 
-        if ($('#modal-header:contains("View")').length === 0) {
-            $('#modal-header').prepend("View " + data[1]);
+            if (data[3] == 1) {
+                $('#role_status_' + data[0]).bootstrapSwitch('state', true, true);
+                $('#role_status_' + data[0]).bootstrapSwitch('onColor', 'success');
+                $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
+                $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
+                    //console.log(event);
+                    $('#submit_button').attr("disabled", false);
+                });
+            }
+            else {
+                $('#role_status_' + data[0]).bootstrapSwitch('state', false, false);
+                $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
+                $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
+                    //console.log(event);
+                    $('#submit_button').attr("disabled", false);
+                });
+            }
         }
-        else {
 
-            $("#modal-header").contents().filter(function () {
-                return this.nodeType == 3;
-            }).remove();
-            $('#modal-header').prepend("View " + data[1]);
-        }
-
-
-        $('#role_id').val(data[0]);
-        $('#role_name').val(data[1]);
-        $('#role_desc').val(data[2]);
-
-        if (data[3] == 1) {
-            $('#role_status_' + data[0]).bootstrapSwitch('state', true, true);
-            $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
-            $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
-                console.log(event);
-                $('#submit_button').attr("disabled", false);
-            });
-        }
-        else {
-            $('#role_status_' + data[0]).bootstrapSwitch('state', false, false);
-            $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
-            $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
-                console.log(event);
-                $('#submit_button').attr("disabled", false);
-            });
-        }
 
     });
 
@@ -322,9 +326,7 @@ function ajaxCall_UserProf() {
     });
     return request;
 }
-function hey() {
-    alert("ey");
-}
+
 function loadForm() {
     var request = ajaxCall_UserProf();
     request.error(function () {
@@ -341,11 +343,6 @@ function loadForm() {
         }
 
     })
-}
-
-function buttonViewClicked(object) {
-
-
 }
 
 

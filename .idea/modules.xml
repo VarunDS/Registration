@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Reg.iml" filepath="$PROJECT_DIR$/.idea/Reg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../bootstrap-tags-master/.idea/bootstrap-tags-master.iml" filepath="$PROJECT_DIR$/../bootstrap-tags-master/.idea/bootstrap-tags-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../bootstrap-tagsinput-latest/.idea/bootstrap-tagsinput-latest.iml" filepath="$PROJECT_DIR$/../bootstrap-tagsinput-latest/.idea/bootstrap-tagsinput-latest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../datatable-demo-server-side-in-phpmysql-and-ajax/.idea/datatable-demo-server-side-in-phpmysql-and-ajax.iml" filepath="$PROJECT_DIR$/../datatable-demo-server-side-in-phpmysql-and-ajax/.idea/datatable-demo-server-side-in-phpmysql-and-ajax.iml" />
     </modules>
   </component>
 </project>
