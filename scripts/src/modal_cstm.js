@@ -1,6 +1,8 @@
 /**
  * Created by Admin on 23/03/17.
  */
+
+permission_switch_status = [];
 $(document).ready(function () {
 
     $('#edit_button').on('click', function () {
@@ -46,7 +48,7 @@ $(document).ready(function () {
     });
     $('#submit_button').on('click', function (event) {
         var operation = 'update';
-        submitModal(event, operation);
+        submitModal(event, operation,roles_table);
     });
 
     $("#viewForm :input, textarea").change(function () {
@@ -125,7 +127,24 @@ function loadPermissions(role_id) {
                 $('#' + role_id + "_" + value['perm_id']).bootstrapSwitch('onColor', 'success');
                 $('#' + role_id + "_" + value['perm_id']).bootstrapSwitch('disabled', true);
                 $('#' + role_id + "_" + value['perm_id']).on('switchChange.bootstrapSwitch', function (event, state) {
-                    alert('Permission change hui hai boss');
+
+                    var element = permission_switch_status.filter(function (ele) {
+                        return ele.element === event.currentTarget.id;
+
+                    });
+                    if (element == null || element == "") {
+                        permission_switch_status.push({element: event.currentTarget.id, state: state});
+                    }
+                    else {
+                        var removeIndex = permission_switch_status.map(function (item) {
+                            return item.element;
+                        })
+                            .indexOf(event.currentTarget.id);
+                        ~removeIndex && permission_switch_status.splice(removeIndex, 1);
+                        permission_switch_status.push({element: event.currentTarget.id, state: state});
+
+                    }
+
                     $('#submit_button').attr("disabled", false);
                 });
             })
@@ -136,11 +155,9 @@ function loadPermissions(role_id) {
                 $('#permissionLabel').append('<label>' + value['perm_desc'] + '</label>');
                 $('#permissionSwitch').append('<input type="checkbox" id="' + role_id + '_' + value['perm_id'] + '">');
                 $('#' + role_id + "_" + value['perm_id']).bootstrapSwitch('state', false, false);
-
-
                 $('#' + role_id + "_" + value['perm_id']).bootstrapSwitch('disabled', true);
                 $('#' + role_id + "_" + value['perm_id']).on('switchChange.bootstrapSwitch', function (event, state) {
-                    alert('Permission change hui hai boss');
+                    permission_switch_status.push({event: event.currentTarget.id, state: state});
                     $('#submit_button').attr("disabled", false);
                 });
 
@@ -156,25 +173,35 @@ function loadPermissions(role_id) {
 
 }
 function submitModal(event, operation) {
+    var row=$('#row_id');
 
-    if ($("#viewForm").data("changed") && operation === 'update') {
+    if (($("#viewForm").data("changed") || status_swtich_array.length > 0 || permission_switch_status.length > 0)
+        && operation === 'update') {
         event.preventDefault();
         var form = $('#viewForm');
+        var perm_form = $('#permissionsForm');
+        console.log(status_swtich_array);
+        console.log(permission_switch_status);
+
         $.ajax({
             type: 'POST',
             url: 'ajax_RoleFeed_DataTable.php',
             data: {
                 operation: operation,
-                formData: form.serialize()
+                detailsFormData: form.serialize(),
+                status_array: status_swtich_array,
+                permissions_array: permission_switch_status,
             },
             dataType: "json",
-            success: function (response) {
-                alert("Record(s) Modified.");
-                console.log(response.responseText);
+            success: function (data) {
+                alert(data.message);
+                $('#roles_table').DataTable().row(row).invalidate().draw();
+
             },
             error: function (response) {
-                alert("Record(s) Not Modified.");
-                console.log(response.responseText);
+                console.log(response)
+                alert(response.responseText);
+                //console.log(response.responseText);
             }
         })
     }
@@ -189,7 +216,11 @@ function disableModalForm() {
 }
 function enableModalForm() {
     var id = $('#role_id').val();
-
+    var disabled_switches = $('#permissions').find(':input').prop('disabled', true);
+    $.each(disabled_switches, function (key, value) {
+        var id_selector = $("#" + value.id);
+        id_selector.bootstrapSwitch('disabled', false);
+    })
     $("#viewForm :input").attr("disabled", false);
     $('#role_status_' + id).bootstrapSwitch('disabled', false);
 }

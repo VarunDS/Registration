@@ -9,7 +9,7 @@
     font-weight: bold;
     text-align: left;
     font-size: 20px;
-    background-color: darkgrey;
+    background-color: #2a6496;
     text-transform: capitalize;
     padding: 10px;
 
@@ -22,7 +22,7 @@
 }
 
 .modal-footer {
-    background-color: darkgrey;
+    background-color: rgb(233, 233, 233);
 
 }
 

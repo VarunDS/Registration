@@ -4,7 +4,7 @@
 $(window).load(function () {
     $(".loader").fadeOut("slow");
 });
-
+status_swtich_array = [];
 
 $(document).ready(function () {
     var arrayTags_global = [];
@@ -95,7 +95,7 @@ $(document).ready(function () {
                 'orderable': false,
                 'className': 'dt-body-center',
                 'render': function (data, type, full, meta) {
-                    return '<input type="checkbox" id="' + $('<div/>').text(data).html() + '" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" id="' + $('<div/>').text(data).html() + '" name="'+meta.row+'" value="' + $('<div/>').text(data).html() + '">';
                 }
             },
             {
@@ -146,8 +146,6 @@ $(document).ready(function () {
             loadPermissions(data[0]);
 
             $('#edit').modal('show');
-
-
             $('#switch').html('<label for="formGroupExampleInput">Role Status </label>' +
                 '<input id="role_status_' + data[0] + '" name="role_status" type="checkbox" class="myClass">');
 
@@ -161,8 +159,9 @@ $(document).ready(function () {
                 }).remove();
                 $('#modal-header').prepend("View " + data[1]);
             }
-
-
+            var checkbox_id=data[0];
+              var checkbox_name=  $('input:checkbox[id='+checkbox_id+']').attr('name');
+            $('#row_id').val(checkbox_name);
             $('#role_id').val(data[0]);
             $('#role_name').val(data[1]);
             $('#role_desc').val(data[2]);
@@ -172,7 +171,21 @@ $(document).ready(function () {
                 $('#role_status_' + data[0]).bootstrapSwitch('onColor', 'success');
                 $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
                 $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
-                    //console.log(event);
+                    var element = status_swtich_array.filter(function (ele) {
+                        return ele.element === event.currentTarget.id;
+
+                    });
+                    if (element == null || element == "") {
+                        status_swtich_array.push({element: event.currentTarget.id, state: state});
+                    }
+                    else {
+                        var removeIndex = status_swtich_array.map(function (item) {
+                            return item.element;
+                        })
+                            .indexOf(event.currentTarget.id);
+                        ~removeIndex && status_swtich_array.splice(removeIndex, 1);
+                        status_swtich_array.push({element: event.currentTarget.id, state: state});
+                    }
                     $('#submit_button').attr("disabled", false);
                 });
             }
@@ -180,7 +193,21 @@ $(document).ready(function () {
                 $('#role_status_' + data[0]).bootstrapSwitch('state', false, false);
                 $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
                 $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
-                    //console.log(event);
+                    var element = status_swtich_array.filter(function (ele) {
+                        return ele.element === event.currentTarget.id;
+
+                    });
+                    if (element == null || element == "") {
+                        status_swtich_array.push({element: event.currentTarget.id, state: state});
+                    }
+                    else {
+                        var removeIndex = status_swtich_array.map(function (item) {
+                            return item.element;
+                        })
+                            .indexOf(event.currentTarget.id);
+                        ~removeIndex && status_swtich_array.splice(removeIndex, 1);
+                        status_swtich_array.push({element: event.currentTarget.id, state: state});
+                    }
                     $('#submit_button').attr("disabled", false);
                 });
             }

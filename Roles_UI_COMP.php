@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles/src/bootstrap-switch.css">
     <script src="scripts/src/modal_cstm.js"></script>
     <link href="styles/src/custom_modal.css" rel="stylesheet">
+
 </head>
 <div class="row">
     <div class="col-md-12">
@@ -96,13 +97,16 @@
                                                     </h4>
                                                 </div>
                                                 <div id="details" class="panel-collapse collapse">
-                                                    <div class="panel-body">
+                                                    <div class="panel-body" style="padding:3px 5px">
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <form id="viewForm">
                                                                     <div class="form-group">
                                                                         <input type="hidden" class="form-control"
                                                                                name="role_id" id="role_id"
+                                                                               placeholder="Name">
+                                                                        <input type="hidden" class="form-control"
+                                                                               name="row_id" id="row_id"
                                                                                placeholder="Name">
                                                                     </div>
                                                                     <div class="form-group">
@@ -141,8 +145,8 @@
                                                     </h4>
                                                 </div>
                                                 <div id="permissions" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        <form style="margin-bottom: -10px" id="permissionsForm">
+                                                    <div class="panel-body"  style="padding:7px 5px 0 -10px">
+                                                        <form style=" margin-bottom: -10px" id="permissionsForm">
 
                                                         </form>
                                                     </div>

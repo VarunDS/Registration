@@ -8,25 +8,46 @@ require_once 'dbConfig.php';
 // have to run the query to sort according to the columns clicked upon from the client side.
 
 
-
+$booleanToInt = array(
+    'true' => 1,
+    'false' => 0
+);
 if ($_POST['operation'] == 'update') {
-    $roles_array=array();
+    $message = "Record Not Modified";
+    $roles_array = array();
 
-    parse_str($_POST['formData'], $roles_array);
+    parse_str ($_POST['detailsFormData'], $roles_array);
     //$roles_array=$_POST['formData'];
     $role_id = $roles_array['role_id'];
     $role_name = $roles_array['role_name'];
     $role_desc = $roles_array['role_desc'];
-    if ($roles_array['role_status'] != null && $roles_array['role_status']== 'on') {
-        $sql = "UPDATE roles SET role_name='" . $role_name . "', role_desc='" . $role_desc . "'" .
-               ", role_status='1' WHERE role_id='" . $role_id . "'";
-    } else {
-        $sql = "UPDATE roles SET role_name='" . $role_name. "', role_desc='" . $role_desc . "'" .
-               ",role_status='0' WHERE role_id='" . $role_id . "'";
+
+    foreach ($_POST['status_array'] as $key => $value) {
+        $role_status = $value['state'];
     }
+    $sql = "UPDATE roles SET role_name='" . $role_name . "', role_desc='" . $role_desc . "'" .
+           ", role_status='" . $booleanToInt[$role_status] . "' WHERE role_id='" . $role_id . "'";
     $query = mysqli_query ($con, $sql) or die("Query Couldn't be Processed");
-}
-else {
+    if ($query) {
+        $message = "Record Modified.";
+    }
+    foreach ($_POST['permissions_array'] as $key => $value) {
+        $perm_id = explode ("_", $value['element']);
+        $perm_id_value = $perm_id[2] . "_" . $perm_id[3];
+        if ($value['state'] == "false") {
+            $sql = "DELETE FROM role_perm WHERE role_id='" . $role_id . "' AND perm_id='" . $perm_id_value . "'";
+        } else if ($value['state'] == "false") {
+            $sql = "INSERT INTO role_perm(role_id, perm_id) VALUES ($role_id,$perm_id_value)";
+        }
+        $query = mysqli_query ($con, $sql) or die("Query Couldn't be Processed");
+        if ($query) {
+            $message = "Record Modified.";
+        }
+    }
+    $json_data = array("message" => $message);
+    echo json_encode ($json_data);
+
+} else {
     $columns = array(
         // datatable column index  => database column name
         0 => 'role_id',
@@ -76,6 +97,7 @@ else {
     $data = array();
 
     while ($row = mysqli_fetch_array ($query)) {  // preparing an array
+
         $nestedData = array();
         $nestedData[] = $row["role_id"];
         $nestedData[] = $row["role_name"];
