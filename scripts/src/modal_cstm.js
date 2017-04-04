@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
     $('#submit_button').on('click', function (event) {
         var operation = 'update';
-        submitModal(event, operation,roles_table);
+        submitModal(event, operation, roles_table);
     });
 
     $("#viewForm :input, textarea").change(function () {
@@ -157,7 +157,22 @@ function loadPermissions(role_id) {
                 $('#' + role_id + "_" + value['perm_id']).bootstrapSwitch('state', false, false);
                 $('#' + role_id + "_" + value['perm_id']).bootstrapSwitch('disabled', true);
                 $('#' + role_id + "_" + value['perm_id']).on('switchChange.bootstrapSwitch', function (event, state) {
-                    permission_switch_status.push({event: event.currentTarget.id, state: state});
+                    var element = permission_switch_status.filter(function (ele) {
+                        return ele.element === event.currentTarget.id;
+
+                    });
+                    if (element == null || element == "") {
+                        permission_switch_status.push({element: event.currentTarget.id, state: state});
+                    }
+                    else {
+                        var removeIndex = permission_switch_status.map(function (item) {
+                            return item.element;
+                        })
+                            .indexOf(event.currentTarget.id);
+                        ~removeIndex && permission_switch_status.splice(removeIndex, 1);
+                        permission_switch_status.push({element: event.currentTarget.id, state: state});
+
+                    }
                     $('#submit_button').attr("disabled", false);
                 });
 
@@ -173,7 +188,7 @@ function loadPermissions(role_id) {
 
 }
 function submitModal(event, operation) {
-    var row=$('#row_id');
+    var row = $('#row_id').val();
 
     if (($("#viewForm").data("changed") || status_swtich_array.length > 0 || permission_switch_status.length > 0)
         && operation === 'update') {
@@ -203,7 +218,9 @@ function submitModal(event, operation) {
                 alert(response.responseText);
                 //console.log(response.responseText);
             }
-        })
+        });
+        permission_switch_status.length = 0;
+        status_swtich_array.length = 0;
     }
 
 

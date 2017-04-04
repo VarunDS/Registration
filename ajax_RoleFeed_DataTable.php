@@ -25,25 +25,33 @@ if ($_POST['operation'] == 'update') {
     foreach ($_POST['status_array'] as $key => $value) {
         $role_status = $value['state'];
     }
-    $sql = "UPDATE roles SET role_name='" . $role_name . "', role_desc='" . $role_desc . "'" .
-           ", role_status='" . $booleanToInt[$role_status] . "' WHERE role_id='" . $role_id . "'";
-    $query = mysqli_query ($con, $sql) or die("Query Couldn't be Processed");
-    if ($query) {
-        $message = "Record Modified.";
-    }
-    foreach ($_POST['permissions_array'] as $key => $value) {
-        $perm_id = explode ("_", $value['element']);
-        $perm_id_value = $perm_id[2] . "_" . $perm_id[3];
-        if ($value['state'] == "false") {
-            $sql = "DELETE FROM role_perm WHERE role_id='" . $role_id . "' AND perm_id='" . $perm_id_value . "'";
-        } else if ($value['state'] == "false") {
-            $sql = "INSERT INTO role_perm(role_id, perm_id) VALUES ($role_id,$perm_id_value)";
-        }
+
+    if (!empty($_POST['status_array'])) {
+        $sql = "UPDATE roles SET role_name='" . $role_name . "', role_desc='" . $role_desc . "'" .
+               ", role_status='" . $booleanToInt[$role_status] . "' WHERE role_id='" . $role_id . "'";
         $query = mysqli_query ($con, $sql) or die("Query Couldn't be Processed");
         if ($query) {
             $message = "Record Modified.";
         }
     }
+
+    if (!empty($_POST['permissions_array'])) {
+        foreach ($_POST['permissions_array'] as $key => $value) {
+            $perm_id = explode ("_", $value['element']);
+            $perm_id_value = $perm_id[2] . "_" . $perm_id[3];
+            if ($value['state'] == "false") {
+                $sql = "DELETE FROM role_perm WHERE role_id='" . $role_id . "' AND perm_id='" . $perm_id_value . "'";
+            } else if ($value['state'] == "true") {
+                $sql = "INSERT INTO role_perm(role_id, perm_id) VALUES ('$role_id','$perm_id_value')";
+            }
+            $query = mysqli_query ($con, $sql) or die("Query Couldn't be Processed");
+            if ($query) {
+                $message = "Record Modified.";
+            }
+        }
+    }
+
+
     $json_data = array("message" => $message);
     echo json_encode ($json_data);
 
