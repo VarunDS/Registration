@@ -4,7 +4,7 @@
 $(window).load(function () {
     $(".loader").fadeOut("slow");
 });
-status_swtich_array = [];
+status_switch_array = [];
 
 $(document).ready(function () {
     var arrayTags_global = [];
@@ -80,8 +80,9 @@ $(document).ready(function () {
             "url": "ajax_RoleFeed_DataTable.php", // json datasource
             "type": "POST",  // method  , by default get
             error: function () {
-                $("#roles_table").append('<tbody class="roles_table-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                $("#roles_table").css("display", "none");
+                var role_table = $("#roles_table");
+                role_table.append('<tbody class="roles_table-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                role_table.css("display", "none");
             }
         },
         'lengthChange': false,
@@ -95,7 +96,7 @@ $(document).ready(function () {
                 'orderable': false,
                 'className': 'dt-body-center',
                 'render': function (data, type, full, meta) {
-                    return '<input type="checkbox" id="' + $('<div/>').text(data).html() + '" name="'+meta.row+'" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" id="' + $('<div/>').text(data).html() + '" name="' + meta.row + '" value="' + $('<div/>').text(data).html() + '">';
                 }
             },
             {
@@ -122,9 +123,6 @@ $(document).ready(function () {
                         '<div>' +
                         '<div class="btn-group">' +
                         '<button id="ButtonView_' + $('<div/>').text(data).html() + '" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></button>' +
-                        '<button id="ButtonUpdate" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></button>' +
-                        '<button id="ButtonDelete" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-trash"></span></button>' +
-                        '<button id="ButtonExport" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-export"></span></button>' +
                         '</div>' +
                         '</div></td>'
 
@@ -135,82 +133,17 @@ $(document).ready(function () {
         "drawCallback": function (settings) {
             $("[name='my-checkbox']").bootstrapSwitch('disabled', true);
         },
-        order: [[1, 'asc']],
+        order: [[1, 'asc']]
 
 
     });
 
     $("#roles_table tbody").on("click", 'button', function (e) {
         if (this.id.indexOf("View") >= 0) {
-            var data = roles_table.row($(this).parents('tr')).data();
-            loadPermissions(data[0]);
-
-            $('#edit').modal('show');
-            $('#switch').html('<label for="formGroupExampleInput">Role Status </label>' +
-                '<input id="role_status_' + data[0] + '" name="role_status" type="checkbox" class="myClass">');
-
-            if ($('#modal-header:contains("View")').length === 0) {
-                $('#modal-header').prepend("View " + data[1]);
-            }
-            else {
-
-                $("#modal-header").contents().filter(function () {
-                    return this.nodeType == 3;
-                }).remove();
-                $('#modal-header').prepend("View " + data[1]);
-            }
-            var checkbox_id=data[0];
-              var checkbox_name=  $('input:checkbox[id='+checkbox_id+']').attr('name');
-            $('#row_id').val(checkbox_name);
-            $('#role_id').val(data[0]);
-            $('#role_name').val(data[1]);
-            $('#role_desc').val(data[2]);
-
-            if (data[3] == 1) {
-                $('#role_status_' + data[0]).bootstrapSwitch('state', true, true);
-                $('#role_status_' + data[0]).bootstrapSwitch('onColor', 'success');
-                $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
-                $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
-                    var element = status_swtich_array.filter(function (ele) {
-                        return ele.element === event.currentTarget.id;
-
-                    });
-                    if (element == null || element == "") {
-                        status_swtich_array.push({element: event.currentTarget.id, state: state});
-                    }
-                    else {
-                        var removeIndex = status_swtich_array.map(function (item) {
-                            return item.element;
-                        })
-                            .indexOf(event.currentTarget.id);
-                        ~removeIndex && status_swtich_array.splice(removeIndex, 1);
-                        status_swtich_array.push({element: event.currentTarget.id, state: state});
-                    }
-                    $('#submit_button').attr("disabled", false);
-                });
-            }
-            else {
-                $('#role_status_' + data[0]).bootstrapSwitch('state', false, false);
-                $('#role_status_' + data[0]).bootstrapSwitch('disabled', true);
-                $('#role_status_' + data[0]).on('switchChange.bootstrapSwitch', function (event, state) {
-                    var element = status_swtich_array.filter(function (ele) {
-                        return ele.element === event.currentTarget.id;
-
-                    });
-                    if (element == null || element == "") {
-                        status_swtich_array.push({element: event.currentTarget.id, state: state});
-                    }
-                    else {
-                        var removeIndex = status_swtich_array.map(function (item) {
-                            return item.element;
-                        })
-                            .indexOf(event.currentTarget.id);
-                        ~removeIndex && status_swtich_array.splice(removeIndex, 1);
-                        status_swtich_array.push({element: event.currentTarget.id, state: state});
-                    }
-                    $('#submit_button').attr("disabled", false);
-                });
-            }
+            prepModal(roles_table, this, 'View');
+        }
+        else if (this.id.indexOf("Update") >= 0) {
+            prepModal(roles_table, this, 'Update');
         }
 
 
@@ -253,11 +186,12 @@ $(document).ready(function () {
         });
 
     });
-
+    var tagsInputSearch = $('#tagsInputSearch');
+    var keyword_search = $('#keyword_search');
     $('#Filters').on("click", "li", function () {
         var content = $(this).text();
-        $('#tagsInputSearch').tagsinput('add', content);
-        $('#tagsInputSearch').tagsinput('refresh');
+        tagsInputSearch.tagsinput('add', content);
+        tagsInputSearch.tagsinput('refresh');
     });
 
 
@@ -266,7 +200,7 @@ $(document).ready(function () {
         tagsArray = $("#tagsInputSearch").tagsinput('items');
     });
 
-    $('#tagsInputSearch').on('beforeItemAdd', function (event) {
+    tagsInputSearch.on('beforeItemAdd', function (event) {
         var json = table.ajax.json();
         var filters = [];
         for (i = 0; i < json.columns.length; i++) {
@@ -278,43 +212,110 @@ $(document).ready(function () {
         }
     });
 
-    $('#tagsInputSearch').on('itemAdded', function (event) {
+    tagsInputSearch.on('itemAdded', function (event) {
         arrayTags_global.push(event.item);
         var activeId = [];
         toggleElements(arrayTags_global, $('#keyword_search').val());
 
     });
 
-    $('#tagsInputSearch').on('itemRemoved', function (event) {
-        toggleElements(arrayTags_global, $('#keyword_search').val());
+    tagsInputSearch.on('itemRemoved', function (event) {
+        toggleElements(arrayTags_global, keyword_search.val());
         var index = arrayTags_global.indexOf(event.item);
         if (index = -1) {
             arrayTags_global.splice(index, 1);
 
         }
-        toggleElements(arrayTags_global, $('#keyword_search').val());
+        toggleElements(arrayTags_global, keyword_search.val());
 
     });
 
-    $('#keyword_search').on('keyup keydown change', function () {
+    keyword_search.on('keyup keydown change', function () {
         toggleElements(arrayTags_global, $('#keyword_search').val());
-    })
+    });
 
     $('#remove_filters').on('click', function () {
         $('#tagsInputSearch').tagsinput('removeAll');
         arrayTags_global.length = 0;
         toggleElements(arrayTags_global, $('#keyword_search').val());
-    })
+    });
 
     $('#remove_keywords').on('click', function () {
-        $('#keyword_search').val("");
-        toggleElements(arrayTags_global, $('#keyword_search').val());
+        keyword_search.val("");
+        toggleElements(arrayTags_global, keyword_search.val());
 
     })
 
 
 });
 
+function prepModal(table, that, operation) {
+    if (operation == "View") {
+        $('#edit_button').show();
+    }
+
+    var data = table.row($(that).parents('tr')).data();
+    loadPermissions(data[0]);
+
+    $('#edit').modal('show');
+    $('#switch').html('<label for="formGroupExampleInput">Role Status </label>' +
+        '<input id="role_status_' + data[0] + '" name="role_status" type="checkbox" class="myClass">');
+
+    if ($('#modal-header:contains("View")').length === 0) {
+        $('#modal-header').prepend("View " + data[1]);
+    }
+    else {
+        var modalHeader = $("#modal-header");
+        modalHeader.contents().filter(function () {
+            return this.nodeType == 3;
+        }).remove();
+        modalHeader.prepend("View " + data[1]);
+    }
+    var checkbox_id = data[0];
+    var checkbox_name = $('input:checkbox[id=' + checkbox_id + ']').attr('name');
+    $('#row_id').val(checkbox_name);
+    $('#role_id').val(data[0]);
+    $('#role_name').val(data[1]);
+    $('#role_desc').val(data[2]);
+
+    var bootstrapSwitchId = $("#role_status_" + data[0]);
+    if (data[3] == 1) {
+        bootstrapSwitchId.bootstrapSwitch('state', true, true);
+        bootstrapSwitchId.bootstrapSwitch('onColor', 'success');
+        bootstrapSwitchId.bootstrapSwitch('disabled', true);
+        bootstrapSwitchId.on('switchChange.bootstrapSwitch', function (event, state) {
+            statusSwitchArrayBuild()
+        });
+    }
+    else {
+        bootstrapSwitchId.bootstrapSwitch('state', false, false);
+        bootstrapSwitchId.bootstrapSwitch('disabled', true);
+        bootstrapSwitchId.on('switchChange.bootstrapSwitch', function (event, state) {
+            statusSwitchArrayBuild()
+        });
+    }
+}
+function statusSwitchArrayBuild() {
+
+    var element = status_switch_array.filter(function (ele) {
+        return ele.element === event.currentTarget.id;
+
+    });
+    if (element == null || element == "") {
+        status_switch_array.push({element: event.currentTarget.id, state: state});
+    }
+    else {
+        var removeIndex = status_switch_array.map(function (item) {
+            return item.element;
+        })
+            .indexOf(event.currentTarget.id);
+        ~removeIndex && status_switch_array.splice(removeIndex, 1);
+        status_switch_array.push({element: event.currentTarget.id, state: state});
+    }
+    $('#submit_button').attr("disabled", false);
+
+
+}
 function toggleElements(tags, searchKeyword) {
 
 
@@ -361,8 +362,9 @@ function loadForm() {
     });
     request.success(function (data) {
         if (data['notification'] == 1) {
-            $('#user_profile_messages').html('Please check your inbox for details!');
-            $('#user_profile_messages').addClass('alert alert-info');
+            var user_profile_messages = $('#user_profile_messages');
+            user_profile_messages.html('Please check your inbox for details!');
+            user_profile_messages.addClass('alert alert-info');
             $('#user_profile :input').prop("disabled", true);
         }
         for (var k in data) {
@@ -380,7 +382,7 @@ $(function () {
             loadForm();
         }
     })
-})
+});
 
 $(function () {
     var user_profile_form = $('#user_profile');
@@ -408,4 +410,4 @@ $(function () {
     })
 
 
-})
+});

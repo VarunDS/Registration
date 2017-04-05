@@ -3,9 +3,13 @@
  */
 
 permission_switch_status = [];
+
+
 $(document).ready(function () {
 
     $('#edit_button').on('click', function () {
+        console.log('ye hai view ke andar se');
+        console.log($('#permissions'));
         enableModalForm();
     });
 
@@ -89,7 +93,7 @@ function loadPermissions(role_id) {
         type: 'POST',
         url: 'ajax_permissionFeed.php',
         data: {
-            role_id: role_id,
+            role_id: role_id
         },
         dataType: "json",
         success: function (data) {
@@ -147,7 +151,7 @@ function loadPermissions(role_id) {
 
                     $('#submit_button').attr("disabled", false);
                 });
-            })
+            });
 
             $.each(denied_array, function (key, value) {
                 var checkbox_id = role_id + "_" + value['perm_id'];
@@ -190,12 +194,12 @@ function loadPermissions(role_id) {
 function submitModal(event, operation) {
     var row = $('#row_id').val();
 
-    if (($("#viewForm").data("changed") || status_swtich_array.length > 0 || permission_switch_status.length > 0)
+    if (($("#viewForm").data("changed") || status_switch_array.length > 0 || permission_switch_status.length > 0)
         && operation === 'update') {
         event.preventDefault();
         var form = $('#viewForm');
         var perm_form = $('#permissionsForm');
-        console.log(status_swtich_array);
+        console.log(status_switch_array);
         console.log(permission_switch_status);
 
         $.ajax({
@@ -204,11 +208,12 @@ function submitModal(event, operation) {
             data: {
                 operation: operation,
                 detailsFormData: form.serialize(),
-                status_array: status_swtich_array,
+                status_array: status_switch_array,
                 permissions_array: permission_switch_status,
             },
             dataType: "json",
             success: function (data) {
+
                 alert(data.message);
                 $('#roles_table').DataTable().row(row).invalidate().draw();
 
@@ -220,7 +225,7 @@ function submitModal(event, operation) {
             }
         });
         permission_switch_status.length = 0;
-        status_swtich_array.length = 0;
+        status_switch_array.length = 0;
     }
 
 

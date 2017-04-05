@@ -72,11 +72,11 @@
                                     <div style="background-color: white; height: 4px"></div>
                                     <div class="modal-body">
                                         <div id="toolbar" class="btn-group btn-group-sm" role="group">
-                                            <button type="button" id="edit_button" class="btn btn-primary"><span
+                                            <button type="button" id="edit_button" class="btn btn-warning"><span
                                                         class="glyphicon glyphicon-pencil"
                                                         style="padding-right: 2px"></span> Edit
                                             </button>
-                                            <button type="button" id="delete_button" class="btn btn-primary "><span
+                                            <button type="button" id="delete_button" class="btn btn-danger "><span
 
                                                         class="glyphicon glyphicon-remove"
                                                         style="padding-right: 2px"></span>Delete

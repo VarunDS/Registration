@@ -274,7 +274,7 @@ require_once "dbConfig.php"; ?>
         <div class="tab-pane fade" id="rights">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>My Rights</strong></div>
-                <div class="panel-body"></div>
+                <div class="panel-body">
                 <div class="container  text-center" style="padding-top: 10px">
                     <div class="row" style="width: 1098px">
                         <div class="col-xs-3">
@@ -371,6 +371,7 @@ require_once "dbConfig.php"; ?>
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
